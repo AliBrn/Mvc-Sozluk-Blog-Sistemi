@@ -1,0 +1,43 @@
+﻿<!--Bu kısım partial view alanıdır bu kısımda yaptıkların   html.action  Controller metot adı ve controller ile çağrıırısın kulalnmak istediğin yerde
+    yani index kısmında 
+-->
+
+<button class="btn btn-primary" data-toggle="modal" data-target="#Modal1">Yeni Hakkımızda Ekle</button>
+<!--
+ Yapı basit normalde a ile  başka bir sayfaya yönlendirceğimze  modal yüzünden button ekliyoruz bu ilk ayrım
+  div tanımlarken  class ve id  giriyoruz  buttondakine uygun
+   div class -id                        1.Div  CLASS VE İD TAŞIR
+   div modal-dialog                     2.Div   MESAJ KUTUSU KISMI
+    div modal content                   3.Div   Mesaj içerik alanı
+    div model header içine h2  başlık   4. Div Mesaj başlık kısımla h2 div kapatırız
+    form metodu  içine div modal body   5.Div form metodu içinde modal bodysi
+-->
+<div class="modal" id="Modal1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h2 class="modal-title">Hakkımızda Metin Girişi</h2>
+            </div>
+            <form method="post" action="/About/AboutAdd/">
+                <div class="modal-body">
+                    <label>Hakkımda metni 1</label>
+                    <input type="text" name="AboutDetails1" class="form-control" />
+                    <br />
+                    <label> Hakkımda metni 2</label>
+                    <input type="text" name="AboutDetails2" class="form-control" />
+                    <br />
+                    <label> Hakkımda Görsel 1</label>
+                    <input type="text" name="AboutImage1" class="form-control" />
+                    <br />
+                    <label> Hakkımda Görsel 2</label>
+                    <input type="text" name="AboutImage2" class="form-control" />
+                    <br />
+                    <button class="btn btn-info">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

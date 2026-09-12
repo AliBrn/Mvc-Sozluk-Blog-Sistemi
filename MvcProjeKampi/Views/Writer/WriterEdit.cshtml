@@ -1,0 +1,50 @@
+﻿@model EntityLayer.Concrete.Writer
+@{
+    ViewBag.Title = "WriterEdit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    .field-validation-error {
+        color: red;
+        font-weight: bold;
+    }
+</style>
+
+<h2>WriterEdit</h2>
+
+@using (Html.BeginForm("WriterEdit", "Writer", FormMethod.Post))
+{   <!--Post içinde Writer ID göndermezsen metot yollamaz bu yüzden hata alabilirsin.-->
+<div class="form-group">
+    @*@Html.Label("Yazar ID")*@ <!--En sağlıklısı hidden for göstermek-->
+    @Html.HiddenFor(x => x.WriterID)  <!-- HiddenFor göstermez aslında sağlık olan oda ben bilerek ıd gösterdim kullanıcıya .Normalde hiddenfor en sağlıklısı -->
+
+    @Html.Label("Güncel Yazar Adı")
+    @Html.TextBoxFor(x => x.WriterName, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.WriterName)
+    <br>
+    @Html.Label("Güncel Yazar Soyadı")
+    @Html.TextBoxFor(x => x.WriterSurName, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.WriterSurName)
+    <br>
+    @Html.Label(" Güncel Yazar Maili")
+    @Html.TextBoxFor(x => x.WriterMail, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.WriterMail)
+    <br>
+    @Html.Label("Güncel Yazar Şifresi")
+    @Html.TextBoxFor(x => x.WriterPassword, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.WriterPassword)
+    <br>
+    @Html.Label("Güncel Unvan Kısmı")
+    @Html.TextBoxFor(x => x.WriterTitle, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.WriterTitle)
+    <br />
+    @Html.Label("Güncel Yazar Görsel Linki")
+    @Html.TextBoxFor(x => x.WriterImage, new { @class = "form-control" })
+    <br>
+    @Html.Label("Güncel Yazar Hakkında Kısmı")
+    @Html.TextBoxFor(x => x.WriterAbout, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.WriterAbout)
+    <br>
+    <button class="btn btn-success">Güncelle</button>
+</div>
+}

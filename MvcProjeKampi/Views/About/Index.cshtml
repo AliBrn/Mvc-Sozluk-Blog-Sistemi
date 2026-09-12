@@ -1,0 +1,29 @@
+﻿@using EntityLayer.Concrete
+@model List<About>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Index</h2>
+<table class="table table-bordered">
+   <tr>
+       <th> ID </th>
+      
+       <th>Başlık</th>
+   </tr>
+   @foreach(var item in Model)
+            {
+                <tr>
+                    <td>  @item.AboutDetails1</td>
+                    <td>  Başlık</td>
+                </tr>
+             
+                   
+               
+     }
+</table>
+
+<!--Yapı Gayet Sorunsuz Çalışıyor ancak solid prensibini eziyor çünkü indexde hem ekleme hem listeleme yapıyor aynı sayfada ancak modal yapısı böyle -->
+<!--Bu yüzden partial view yapısı kullanıyoruz-->
+@Html.Action("AboutPartial", "About")

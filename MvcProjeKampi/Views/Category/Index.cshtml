@@ -1,0 +1,47 @@
+﻿
+@{
+    Layout = null;
+}
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<!-- Aslında bir layout yok ondan boostrap min css dosyasını manuel ekledik öncekinde ortak layoutda render edince ordaki cssden alıyorduk boostrapt bileşenini-->
+<h3>MVC KAMP Tablo Örneği-Kategori</h3>
+
+<br />
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Kategori ID</th>
+            <th>Kategori Adı</th>
+            <th>Kategori Açıklama</th>
+            <th>Durum</th>
+            <th>Güncelle</th>
+        </tr>
+    </thead>
+    <tr>
+        <!--  td table data  demek ince th  table heading kalın-->
+        <td>1</td>
+        <td>Eğitim</td>
+        <td>Açıklama yaptık</td>
+        <td>True</td>
+        <td> <button class="btn btn-success">Güncelle</button> </td>
+    </tr>
+    <tr>
+        <!--  td table data  demek ince th  table heading kalın-->
+        <td>2</td>
+        <td>Spor</td>
+        <td>Açıklama yapıldı</td>
+        <td>True</td>
+        <td> <button class="btn btn-success">Güncelle</button> </td>
+    </tr>
+    <tr>
+        <!--  td table data  demek ince th  table heading kalın-->
+        <td>3</td>
+        <td>Sinema</td>
+        <td>Açıklama yapacaksın</td>
+        <td>True</td>
+        <td> <button class="btn btn-success">Güncelle</button> </td>
+    </tr>
+</table>
+<button class="btn btn-info">Yeni Kategori</button>
+<button class="btn btn-warning">Kategori Listesi</button>
+<button class="btn btn-danger">Kategori Açıklamaları</button>
