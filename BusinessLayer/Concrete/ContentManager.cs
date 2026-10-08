@@ -17,9 +17,10 @@ namespace BusinessLayer.Concrete
         {
             _contentdal = contentdal;
         }
+        // Yeni içerik ekler
         public void ContentAdd(Content cnt)
         {
-            throw new NotImplementedException();
+            _contentdal.Insert(cnt);
         }
 
         public Content ContentGetByID(int id)
@@ -27,9 +28,15 @@ namespace BusinessLayer.Concrete
             throw new NotImplementedException();
         }
 
-        public List<Content> ContentList()
+        // Arama parametresine göre veya tüm içerikleri listeler
+        public List<Content> ContentList(string deger)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(deger))
+            {
+                return _contentdal.List();
+            }
+
+            return _contentdal.List(x => x.ContentValue.Contains(deger));
         }
 
         public void ContentRemove(Content cnt)
@@ -42,9 +49,19 @@ namespace BusinessLayer.Concrete
             throw new NotImplementedException();
         }
 
-        public List<Content> GetListByHeadingID(int id) // .List yazdıkya  aslında parametreli listeyi çağırdık .List(func expression ifadesi) olan çağırdık.
+        // Başlık ID'sine ait tüm içerikleri listeler
+        public List<Content> GetListByHeadingID(int id)
         {
-            return _contentdal.List(x=>x.HeadingID==id); // Listele ama neye göre Heading id göre
+            return _contentdal.List(x => x.HeadingID == id);
         }
+
+        // Yazar ID'sine ait tüm içerikleri listeler
+        public List<Content> GetListByWriter(int id)
+        {
+            return _contentdal.List(x => x.WriterID == id);
+        }
+
+
+
     }
 }

@@ -1,0 +1,305 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>404 - Sayfa Bulunamadı</title>
+    <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/404-Error-Page---Astronaut-master/src/style.css">
+
+    <style>
+        html, body {
+            height: 100vh;
+            width: 100vw;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            /* Derin uzay gradyanı: Alttaki siyahlık belirgin ve temiz */
+            background: radial-gradient(ellipse at bottom, #151d28 0%, #08090c 100%);
+            font-family: 'Righteous', cursive;
+        }
+
+        /* AY: Ekrandan taşmayan, tam gözüken ve 3D derinliği olan dolunay */
+        .moon {
+            background: linear-gradient(135deg, #e6e6e6 0%, #a6a6a6 50%, #707070 100%);
+            position: absolute;
+            top: 50%;
+            left: 7%;
+            transform: translateY(-50%);
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            /* Ayın etrafındaki ışıma ve kendi iç gölgesi */
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.15), inset -25px -25px 40px rgba(0, 0, 0, 0.6);
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        /* Kraterler artık doğrudan ayın içine oturtuldu, dışarı taşamaz */
+        .moon__crater {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #555555 0%, #888888 100%);
+            opacity: 0.55;
+            box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .moon__crater1 {
+            top: 45px;
+            left: 160px;
+            width: 45px;
+            height: 65px;
+            transform: rotate(20deg);
+        }
+
+        .moon__crater2 {
+            top: 160px;
+            left: 65px;
+            width: 35px;
+            height: 50px;
+            transform: rotate(55deg);
+        }
+
+        .moon__crater3 {
+            top: 200px;
+            left: 175px;
+            width: 40px;
+            height: 55px;
+            transform: rotate(-30deg);
+        }
+
+        /* 404 Metin Alanı (Tam Ortada) */
+        .error {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #f5f6fa;
+            z-index: 10;
+        }
+
+        .error__title {
+            font-size: 8.5em;
+            letter-spacing: 5px;
+            color: #ffffff;
+            text-shadow: 0 0 25px rgba(255, 255, 255, 0.35);
+            margin: 0;
+            line-height: 1;
+        }
+
+        .error__subtitle {
+            font-size: 2em;
+            color: #dcdde1;
+            margin-top: 15px;
+        }
+
+        .error__description {
+            color: #718093;
+            margin-top: 10px;
+            font-size: 1.1em;
+        }
+
+        /* Buton */
+        .error__button {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 32px;
+            outline: none;
+            border: 2px solid #e67e22;
+            background-color: #e67e22;
+            border-radius: 50px;
+            color: #ffffff;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 1em;
+            font-family: 'Righteous', cursive;
+            transition: all 0.3s ease;
+            box-shadow: 0px 4px 15px rgba(230, 126, 34, 0.4);
+        }
+
+            .error__button:hover {
+                background-color: #d35400;
+                border-color: #d35400;
+                color: #ffffff;
+                transform: scale(1.05);
+                box-shadow: 0px 6px 20px rgba(211, 84, 0, 0.6);
+            }
+
+        /* Astronot (Sağ Tarafta Dengeli) */
+        .astronaut {
+            position: absolute;
+            width: 185px;
+            height: 300px;
+            right: 10%;
+            top: 50%;
+            transform: translate(0, -50%) rotate(15deg) scale(1.15);
+            z-index: 5;
+        }
+
+        /* Yıldızlar */
+        .star {
+            background: white;
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            border-radius: 100%;
+            opacity: 0.6;
+            animation: shimmer 1.5s infinite alternate;
+        }
+
+        @@keyframes shimmer {
+            from {
+                opacity: 0.2;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .star1 {
+            top: 20%;
+            left: 35%;
+            animation-delay: 1s;
+        }
+
+        .star2 {
+            top: 75%;
+            left: 75%;
+            animation-delay: 2s;
+        }
+
+        .star3 {
+            top: 15%;
+            left: 80%;
+            animation-delay: 1.5s;
+        }
+
+        .star4 {
+            top: 82%;
+            left: 40%;
+            animation-delay: 0.5s;
+        }
+
+        .star5 {
+            top: 35%;
+            left: 28%;
+            animation-delay: 2.5s;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ay ve İçindeki Kraterler -->
+    <div class="moon">
+        <div class="moon__crater moon__crater1"></div>
+        <div class="moon__crater moon__crater2"></div>
+        <div class="moon__crater moon__crater3"></div>
+    </div>
+
+    <!-- Yıldızlar -->
+    <div class="star star1"></div>
+    <div class="star star2"></div>
+    <div class="star star3"></div>
+    <div class="star star4"></div>
+    <div class="star star5"></div>
+
+    <!-- 404 İçeriği -->
+    <div class="error">
+        <div class="error__title">404</div>
+        <div class="error__subtitle">Hmmm...</div>
+        <div class="error__description">Aradığınız sayfayı bulamadık :(</div>
+        <a href="/Home/HomePage/" class="error__button">Ana Sayfaya Dön</a>
+    </div>
+
+    <!-- Astronot -->
+    <div class="astronaut">
+        <div class="astronaut__backpack"></div>
+        <div class="astronaut__body"></div>
+        <div class="astronaut__body__chest"></div>
+        <div class="astronaut__arm-left1"></div>
+        <div class="astronaut__arm-left2"></div>
+        <div class="astronaut__arm-right1"></div>
+        <div class="astronaut__arm-right2"></div>
+        <div class="astronaut__arm-thumb-left"></div>
+        <div class="astronaut__arm-thumb-right"></div>
+        <div class="astronaut__leg-left"></div>
+        <div class="astronaut__leg-right"></div>
+        <div class="astronaut__foot-left"></div>
+        <div class="astronaut__foot-right"></div>
+        <div class="astronaut__wrist-left"></div>
+        <div class="astronaut__wrist-right"></div>
+
+        <div class="astronaut__cord">
+            <canvas id="cord" height:"500px" width:"500px"></canvas>
+        </div>
+
+        <div class="astronaut__head">
+            <canvas id="visor" width:"60px" height:"60px"></canvas>
+            <div class="astronaut__head-visor-flare1"></div>
+            <div class="astronaut__head-visor-flare2"></div>
+        </div>
+    </div>
+
+    <script>
+        function drawVisor() {
+            const canvas = document.getElementById('visor');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            ctx.beginPath();
+            ctx.moveTo(5, 45);
+            ctx.bezierCurveTo(15, 64, 45, 64, 55, 45);
+            ctx.lineTo(55, 20);
+            ctx.bezierCurveTo(55, 15, 50, 10, 45, 10);
+            ctx.lineTo(15, 10);
+            ctx.bezierCurveTo(15, 10, 5, 10, 5, 20);
+            ctx.lineTo(5, 45);
+
+            ctx.fillStyle = '#2f3640';
+            ctx.strokeStyle = '#f5f6fa';
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        const cordCanvas = document.getElementById('cord');
+        if (cordCanvas) {
+            const ctx = cordCanvas.getContext('2d');
+            let y1 = 160, y2 = 100, y3 = 100;
+            let y1Forward = true, y2Forward = false, y3Forward = true;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+                ctx.beginPath();
+                ctx.moveTo(130, 170);
+                ctx.bezierCurveTo(250, y1, 345, y2, 400, y3);
+
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = 8;
+                ctx.stroke();
+
+                if (y1 === 100) y1Forward = true;
+                if (y1 === 300) y1Forward = false;
+                if (y2 === 100) y2Forward = true;
+                if (y2 === 310) y2Forward = false;
+                if (y3 === 100) y3Forward = true;
+                if (y3 === 317) y3Forward = false;
+
+                y1Forward ? y1 += 1 : y1 -= 1;
+                y2Forward ? y2 += 1 : y2 -= 1;
+                y3Forward ? y3 += 1 : y3 -= 1;
+            }
+            animate();
+        }
+
+        drawVisor();
+    </script>
+</body>
+</html>

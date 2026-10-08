@@ -1,0 +1,60 @@
+﻿@using EntityLayer.Concrete
+@model List<Heading>
+@{
+    ViewBag.Title = "PieChart";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Daire Grafiği</h2>
+<script type="text/javascript"
+        src="https://www.gstatic.com/charts/loader.js"></script>
+
+<div class="container-fluid">
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Kategorilere Göre Başlık Dağılımı</h3>
+        </div>
+
+        <div class="card-body">
+
+            <div id="piechart" style="width: 100%; height: 400px;"></div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    google.charts.load('current', {
+        packages: ['corechart']
+    });
+
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+            ['Kategori', 'Başlık Sayısı'],
+
+           @foreach (var item in ViewBag.ChartData)
+{
+    <text>
+        ['@item.Key', @item.Value],
+    </text>
+}
+        ]);
+
+        var options = {
+            title: 'Kategorilere Göre Başlık Dağılımı'
+        };
+
+        var chart = new google.visualization.PieChart(
+            document.getElementById('piechart')
+        );
+
+        chart.draw(data, options);
+    }
+
+</script>

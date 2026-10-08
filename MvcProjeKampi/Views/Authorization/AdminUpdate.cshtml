@@ -1,0 +1,29 @@
+﻿@model EntityLayer.Concrete.Admin
+@{
+    ViewBag.Title = "AdminUpdate";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>AdminUpdate</h2>
+
+
+@using (Html.BeginForm("AdminUpdate", "Authorization", FormMethod.Post)) // Action ismi,Controller ismi
+{
+    <div class="form-group">
+        @Html.HiddenFor(x => x.AdminID)
+        @Html.HiddenFor(x => x.AdminStatus) <!-- Bunu ekle -->
+        <br />
+        @Html.Label("Güncellencek Admin Adı")
+        @Html.TextBoxFor(x => x.AdminUserName, new { @class = "form-control" })
+        <br />
+        @Html.Label("Admin Şifresi (Değiştirmek istemiyorsanız boş bırakın)")
+        <input type="password" name="AdminPassword" class="form-control" placeholder="Mevcut şifreyi korumak için boş bırakınız" autocomplete="new-password" />
+        <br />
+        @Html.Label("Admin Rolü")
+        @Html.DropDownListFor(x => x.AdminRole, (List<SelectListItem>)ViewBag.Roller, new { @class = "form-control" })
+        <br />
+        <button class="btn btn-success">Güncelle</button>
+    </div>
+
+
+}

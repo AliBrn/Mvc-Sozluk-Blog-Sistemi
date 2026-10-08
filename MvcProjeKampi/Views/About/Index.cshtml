@@ -5,25 +5,66 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Index</h2>
+
+
+<h2>Hakkımda Sayfası</h2>
+<br />
+
+
 <table class="table table-bordered">
-   <tr>
-       <th> ID </th>
-      
-       <th>Başlık</th>
-   </tr>
-   @foreach(var item in Model)
+    <tr>
+        <th>#</th>
+        <th>Başlık</th>
+        <th>Aktif Yapma</th>
+        <th>Pasif Yapma</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.AboutID</td>
+
+            @if (item.AboutStatus == true)
             {
-                <tr>
-                    <td>  @item.AboutDetails1</td>
-                    <td>  Başlık</td>
-                </tr>
-             
-                   
-               
-     }
+                <td>@item.AboutDetails1</td>
+            }
+            else
+            {
+                <td></td>
+            }
+            <!--Örneğin item.AboutID = 7 ise HTML aslında şöyle olur:    id isimli id si value bu değer-->
+            <td>
+                <!--Disabled  aslında kullanılmayacak hale geitiroyr-->
+                <form method="post" action="/About/AktifYap">
+                    <input type="hidden" name="id" value="@item.AboutID" />
+
+                    <button type="submit"
+                            class="btn btn-success"
+                            @(item.AboutStatus == true ? "disabled" : "")>
+                        Aktif Yap
+                    </button>
+                </form>
+            </td>
+
+            <!--Durumu False pasifse button  zaten butonu göstermez kullanılmaz hale getirir-->
+            <td>
+                <form method="post" action="/About/PasifYap">
+                    <input type="hidden" name="id" value="@item.AboutID" />
+
+                    <button type="submit"
+                            class="btn btn-danger"
+                            @(item.AboutStatus == false ? "disabled" : "")>
+                        <!--AboutStatus == false ise Razor bunu şu hale getiriyor:  disabled html attribute üretiyor doğrudan-->
+                        Pasif Yap
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+
 </table>
 
-<!--Yapı Gayet Sorunsuz Çalışıyor ancak solid prensibini eziyor çünkü indexde hem ekleme hem listeleme yapıyor aynı sayfada ancak modal yapısı böyle -->
+<!--Index içerisinde hem listeleme hem ekleme işlemlerine ait HTML yapısı bulunduğu için sayfanın sorumluluğunu azaltmak ve kodu daha 
+    düzenli hale getirmek amacıyla Partial View kullanıyoruz. -->
 <!--Bu yüzden partial view yapısı kullanıyoruz-->
 @Html.Action("AboutPartial", "About")

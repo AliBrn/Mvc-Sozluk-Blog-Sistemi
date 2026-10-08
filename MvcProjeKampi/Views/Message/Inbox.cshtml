@@ -33,14 +33,17 @@
                     <div class="card-header">
                         <h3 class="card-title">Gelen Mesajlar</h3>
                         <div class="card-tools">
-                            <div class="input-group input-group-sm">
-                                <input type="text" class="form-control" placeholder="Mail Kutusunda Ara">
-                                <div class="input-group-append">
-                                    <div class="btn btn-primary">
-                                        <i class="fas fa-search"></i>
+                                @using (Html.BeginForm("Inbox", "Message", FormMethod.Get))
+                                {
+                                    <div class="input-group input-group-sm" style="width: 250px;">
+                                        <input type="text" name="kelime" class="form-control" placeholder="Mail Kutusunda Ara...">
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                }
                         </div>
                         <!-- /.card-tools -->
                     </div>
@@ -75,15 +78,25 @@
                                     {
                                         <tr>
                                             <td>
-                                                <div class="icheck-primary">
-                                                    <input type="checkbox" value="" id="check1">
-                                                    <label for="check1"></label>
-                                                </div>
+                                                <!--Kontrol EdERSİN GELİNCE SENDBOX YAPCAKSIN UNUTMA-->
+                                               <form method="post" action="/Message/MessageIsRead/@item.MessageID">
+
+                                                   <input type="hidden" name="status" value="@item.MessageIsRead" />
+                                                   
+                                                   <div class="icheck-primary">
+                                                       <input type="checkbox"
+                                                              @(item.MessageIsRead ? "checked" : "")
+                                                              onchange="this.form.status.value = this.checked; this.form.submit();">
+
+                                                       <label for="@item.MessageID"></label>
+                                                   </div>
+
+                                               </form>
                                             </td>
                                             <td class="mailbox-star"><a href="/Message/MessageInboxDetails/@item.MessageID"><i class="fas fa-star text-warning"></i></a></td>
                                             <td class="mailbox-name"><a href="/Message/MessageInboxDetails/@item.MessageID">@item.SenderMail</a></td> <!--Gelen mesajda gönderen maili olur zıttı yani-->
                                             <td class="mailbox-subject">
-                                                <b>@item.Subject</b> - @item.MessageContent.Substring(0, 30)...
+                                                <b>@item.Subject</b> - @(item.MessageContent != null && item.MessageContent.Length > 30 ? item.MessageContent.Substring(0, 30) + "..." : item.MessageContent)
                                             </td>
                                             <td class="mailbox-attachment"></td>
                                             <td class="mailbox-date">@(((DateTime)item.MessageDate).ToString("dd-MMM-yyyy"))</td>

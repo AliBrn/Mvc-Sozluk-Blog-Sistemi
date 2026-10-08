@@ -10,12 +10,10 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Concrete.Repositories
 {
-    // Yanlış kullanım kısmınada implemente etmeliydik
     public class CategoryRepository : ICategoryDal
-    { // Ne görev yaptıklarını burda tanımladık
-        
-        Context db=new Context();
-        DbSet<Category> _object; // _object  isimlendirme nesne de diyebilirsin
+    {
+        Context db = new Context();
+        DbSet<Category> _object;
         public void Delete(Category p)
         {
             _object.Remove(p);

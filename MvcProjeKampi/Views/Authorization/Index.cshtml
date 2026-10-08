@@ -1,0 +1,505 @@
+﻿@using EntityLayer.Concrete
+@model List<Admin>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Admin Listesi ve Yetkilendirme</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Admin Mail</th>
+            <th>Yetki</th>
+            <th>Status</th>
+            <th>Durum (Aktif/Pasif)</th>
+            <th>Yetkisini Değiştir</th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.AdminID</td>
+            <td>@item.AdminUserName</td>
+            <td><span class="badge badge-info">@item.AdminRole</span></td>
+
+            <!-- Durum Rozeti -->
+            <td>
+                @if (item.AdminStatus)
+                {
+                    <span class="badge badge-success">Aktif</span>
+                }
+                else
+                {
+                    <span class="badge badge-danger">Pasif</span>
+                }
+            </td>
+
+            <!-- Aktif / Pasif Butonu -->
+            <!-- Aktif / Pasif Butonu (Sadece C görür): -->
+            <td>
+                @if (User.IsInRole("C"))
+                {
+                    if (item.AdminRole == "C")
+                    {
+                        <span class="text-muted"><i class="fas fa-lock"></i> Kilitli</span>
+                    }
+                    else if (item.AdminStatus)
+                    {
+                        <form method="post" action="/Authorization/PasifYap" class="form-status-toggle" data-status-text="pasif" style="display:inline;">
+                            <input type="hidden" name="id" value="@item.AdminID" />
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                Pasif Yap
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form method="post" action="/Authorization/AktifYap" class="form-status-toggle" data-status-text="aktif" style="display:inline;">
+                            <input type="hidden" name="id" value="@item.AdminID" />
+                            <button type="submit" class="btn btn-sm btn-success">
+                                Aktif Yap
+                            </button>
+                        </form>
+                    }
+                }
+                else
+                {
+                    <span class="text-muted">Yetkiniz Yok</span>
+                }
+            </td>
+
+            <!-- Yetki Değiştir Butonu (Sadece C görür): -->
+            <td>
+                @if (User.IsInRole("C"))
+                {
+                    if (item.AdminRole == "C")
+                    {
+                        <span class="text-muted"><i class="fas fa-lock"></i> Kilitli</span>
+                    }
+                    else
+                    {
+                        <a class="btn btn-sm btn-warning" href="/Authorization/AdminUpdate/@item.AdminID">
+                            Yetkiyi Değiştir
+                        </a>
+                    }
+                }
+                else
+                {
+                    <span class="text-muted">Yetkiniz Yok</span>
+                }
+            </td>
+        </tr>
+    }
+</table>
+
+@if (User.IsInRole("B") || User.IsInRole("C"))
+{
+    <a href="/Authorization/AdminAdd/" class="btn btn-info">Yeni Admin Ekle</a>
+}
+
+<!-- SweetAlert Bildirim ve Onay Scriptleri -->
+@if (TempData["SweetAlertSuccess"] != null)
+{
+    <script>
+        $(document).ready(function () {
+            Swal.fire({
+                icon: 'success',
+                title: 'İşlem Başarılı',
+                text: '@Html.Raw(TempData["SweetAlertSuccess"])',
+                timer: 2500,
+                showConfirmButton: false
+            });
+        });
+    </script>
+}
+
+<script>
+    $(document).on('submit', '.form-status-toggle', function (e) {
+        var form = this;
+        if ($(form).data('confirmed') === true) {
+            return true;
+        }
+
+        e.preventDefault();
+        var statusText = $(form).data('status-text');
+        var isPasif = (statusText === 'pasif');
+
+        Swal.fire({
+            title: 'Emin misiniz?',
+            text: 'Bu admin hesabını ' + (isPasif ? 'pasif' : 'aktif') + ' duruma getirmek istediğinize emin misiniz?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: isPasif ? '#d33' : '#28a745',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Evet, ' + (isPasif ? 'Pasif Yap' : 'Aktif Yap'),
+            cancelButtonText: 'Vazgeç'
+        }).then(function (result) {
+            // SweetAlert2 v9'da result.value, v10+'da result.isConfirmed kullanılır:
+            if (result && (result.value === true || result.isConfirmed === true)) {
+                $(form).data('confirmed', true);
+                if (typeof form.submit === 'function') {
+                    form.submit();
+                } else {
+                    HTMLFormElement.prototype.submit.call(form);
+                }
+            } else if (result && (result.dismiss === 'cancel' || (typeof Swal !== 'undefined' && result.dismiss === Swal.DismissReason.cancel))) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'İptal Edildi',
+                    text: 'İşlem iptal edildi, durum değiştirilmedi.',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            }
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+<!--Alttaki kullanıcı login-->
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f6f8;
+            color: #082b52;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 620px;
+            padding: 0 20px;
+            margin: 0;
+        }
+
+        /* BAŞLIK */
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #071f3b;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 16px;
+            color: #617083;
+        }
+
+        .header a {
+            color: #1859c9;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* LOGIN KUTUSU */
+        .login-box {
+            background-color: white;
+            border: 1px solid #e1e4e8;
+            border-radius: 10px;
+            padding: 35px 45px 32px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+        }
+
+        /* INPUTLAR */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 7px;
+            color: #082b52;
+        }
+
+        .form-group input[type="email"],
+        .form-group input[type="password"] {
+            width: 100%;
+            height: 45px;
+            border: 1px solid #c9d0d8;
+            border-radius: 7px;
+            padding: 0 15px;
+            font-size: 15px;
+            outline: none;
+            color: #333;
+        }
+
+        .form-group input::placeholder {
+            color: #7a8494;
+        }
+
+        .form-group input:focus {
+            border-color: #4d46e8;
+            box-shadow: 0 0 0 2px rgba(77, 70, 232, 0.1);
+        }
+
+        /* REMEMBER / FORGOT */
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+        }
+
+        .remember input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .forgot {
+            color: #2859dc;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        /* SIGN IN */
+        .signin-btn {
+            width: 100%;
+            height: 46px;
+            border: none;
+            border-radius: 7px;
+            background-color: #5146e5;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .signin-btn:hover {
+            background-color: #4439d5;
+        }
+
+        /* AYIRICI */
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 30px 0 22px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background-color: #d9dde2;
+        }
+
+        .divider span {
+            background-color: #f5f6f8;
+            padding: 4px 10px;
+            color: #617083;
+            font-size: 16px;
+        }
+
+        /* SOSYAL BUTONLAR */
+        .social-buttons {
+            display: flex;
+            gap: 14px;
+        }
+
+        .social-btn {
+            flex: 1;
+            height: 55px;
+            background-color: white;
+            border: 1px solid #cbd2da;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .social-btn:hover {
+            background-color: #f7f7f7;
+        }
+
+        .facebook {
+            font-size: 27px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .twitter {
+            font-size: 25px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .google {
+            font-size: 25px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        /* MOBİL */
+        @@media (max-width: 600px) {
+
+            .container {
+                max-width: 100%;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+            .login-box {
+                padding: 30px 25px;
+            }
+
+            .options {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .social-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">-->
+<!-- BAŞLIK -->
+<!--<div class="header">
+
+    <h1>Sign in to your account</h1>
+
+    <p>
+        Or
+        <a href="#">create an account</a>
+    </p>
+
+</div>-->
+<!-- LOGIN -->
+<!--<div class="login-box">
+
+    <form>-->
+<!-- EMAIL -->
+<!--<div class="form-group">
+
+    <label for="email">
+        Email address
+    </label>
+
+    <input type="email"
+           id="email"
+           placeholder="Enter your email address">
+
+</div>-->
+<!-- PASSWORD -->
+<!--<div class="form-group">
+
+    <label for="password">
+        Password
+    </label>
+
+    <input type="password"
+           id="password"
+           placeholder="Enter your password">
+
+</div>-->
+<!-- REMEMBER / FORGOT -->
+<!--<div class="options">
+
+    <label class="remember">
+
+        <input type="checkbox">
+
+        <span>Remember me</span>
+
+    </label>
+
+    <a href="#" class="forgot">
+        Forgot your password?
+    </a>
+
+</div>-->
+<!-- SIGN IN -->
+<!--<button type="submit" class="signin-btn">
+        Sign in
+    </button>
+
+</form>-->
+<!-- OR -->
+<!--<div class="divider">
+
+    <span>
+        Or continue with
+    </span>
+
+</div>-->
+<!-- SOSYAL MEDYA -->
+<!--<div class="social-buttons">
+
+                <button class="social-btn">
+                    <span class="facebook">f</span>
+                </button>
+
+                <button class="social-btn">
+                    <span class="twitter">♥</span>
+                </button>
+
+                <button class="social-btn">
+                    <span class="google">G</span>
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>-->

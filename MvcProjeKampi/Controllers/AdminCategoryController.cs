@@ -11,28 +11,33 @@ using System.Web.Mvc;
 
 namespace MvcProjeKampi.Controllers
 {
+    [Authorize(Roles = "B,C")]
     public class AdminCategoryController : Controller
     {
-        // GET: AdminCategory
-        // Farklı bileşene geçtikçe dapper ya da api vs  az kod düzenlemesi için newden nesne alıyoruz
-
         CategoryManager cm = new CategoryManager(new EfCategoryDal());
+        HeadingManager hm = new HeadingManager(new EfHeadingDal());
+
+        // Kategori listesi
         public ActionResult Index()
         {
             var deger = cm.GetCategoryList();
             return View(deger);
         }
+
         [HttpGet]
         public ActionResult CategoryAdd()
         {
             return View();
         }
+
+        // Yeni kategori ekleme (POST)
         [HttpPost]
         public ActionResult CategoryAdd(Category nesne)
         {
             CategoryValidator cmv = new CategoryValidator();
             ValidationResult results = cmv.Validate(nesne);
-            if(results.IsValid) {
+            if (results.IsValid)
+            {
                 cm.CategoryAdd(nesne);
                 return RedirectToAction("Index");
             }
@@ -40,32 +45,41 @@ namespace MvcProjeKampi.Controllers
             {
                 foreach (var item in results.Errors)
                 {
-                    ModelState.AddModelError(item.PropertyName, item.ErrorMessage); //  ismi ile mesaj getircek
+                    ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
                 }
             }
-                return View();
+            return View();
         }
 
+        // Kategori silme
         public ActionResult CategoryDelete(int id)
         {
-            var silincek_id=cm.GetByID(id); // İlk başta kullanıcı controllerdan girdiği id karşılık nesneyi bulcaz daha sonra nesne silcez
-            cm.CategoryRemove(silincek_id); // CategoryManager  kullandıgımız Iservice imza metot ismi
-            // Aslında işlevi yapan  ICATEGORY dal  ancak burda gösterdiğimiz EF  sorgusu gibi kendi metotlarımız ISERVİCE tanımladıgımız
+            var silincek_id = cm.GetByID(id);
+            cm.CategoryRemove(silincek_id);
             return RedirectToAction("Index");
         }
 
+        // Kategori güncelleme (GET)
         [HttpGet]
-        public ActionResult CategoryEdit(int id) // Controller ismi ne olcağı önemsiz
+        public ActionResult CategoryEdit(int id)
         {
-            var guncellencek_id= cm.GetByID(id);  // İçindeki metot  Service metot 
-
-            return View(guncellencek_id); // Guncellencek id yi sayfaya yönlendiriyoruz o sayfada tüm bilgileri gösteriyoruz
+            var guncellencek_id = cm.GetByID(id);
+            return View(guncellencek_id);
         }
+
+        // Kategori güncelleme (POST)
         [HttpPost]
         public ActionResult CategoryEdit(Category ctg)
         {
             cm.CategoryUpdate(ctg);
             return RedirectToAction("Index");
+        }
+
+        // Kategoriye ait başlıkları listeler
+        public ActionResult ListHeadingsByCategory(int id)
+        {
+            var deger = hm.GetListByCategory(id);
+            return View(deger);
         }
     }
 }

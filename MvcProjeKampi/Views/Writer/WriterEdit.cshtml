@@ -13,10 +13,9 @@
 <h2>WriterEdit</h2>
 
 @using (Html.BeginForm("WriterEdit", "Writer", FormMethod.Post))
-{   <!--Post içinde Writer ID göndermezsen metot yollamaz bu yüzden hata alabilirsin.-->
+{
 <div class="form-group">
-    @*@Html.Label("Yazar ID")*@ <!--En sağlıklısı hidden for göstermek-->
-    @Html.HiddenFor(x => x.WriterID)  <!-- HiddenFor göstermez aslında sağlık olan oda ben bilerek ıd gösterdim kullanıcıya .Normalde hiddenfor en sağlıklısı -->
+    @Html.HiddenFor(x => x.WriterID)
 
     @Html.Label("Güncel Yazar Adı")
     @Html.TextBoxFor(x => x.WriterName, new { @class = "form-control" })

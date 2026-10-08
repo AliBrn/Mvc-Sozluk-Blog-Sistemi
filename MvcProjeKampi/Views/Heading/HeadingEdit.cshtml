@@ -9,9 +9,8 @@
 @using (Html.BeginForm("HeadingEdit", "Heading", FormMethod.Post))
 {
   <div class="form-group">
-      @Html.Label("Başlık ID")
-      @Html.TextBoxFor(x => x.HeadingID, new { @class = "form-control" })
-      <br />
+      @Html.HiddenFor(x => x.HeadingID, new { @class = "form-control" })
+
       @Html.Label("Başlık Adı")
       @Html.TextBoxFor(x => x.HeadingName, new { @class = "form-control" })
       <br />
@@ -21,8 +20,8 @@
       @Html.Label("Başlığın Kategorisi")
       @Html.DropDownListFor(x => x.CategoryID, (List<SelectListItem>)ViewBag.ctgrvalue, new { @class = "form-control" })
       <br />
-      @Html.Label("Başlık Kategori ID ")
-      @Html.TextBoxFor(x => x.WriterID, new { @class = "form-control" })
+      @Html.Label("Başlık Yazarı ") 
+      @Html.DropDownListFor(x => x.WriterID,(List<SelectListItem>)ViewBag.yzrvalue, new { @class = "form-control" })
       <br />
       <button class="btn btn-success">Güncelle</button>
   </div>

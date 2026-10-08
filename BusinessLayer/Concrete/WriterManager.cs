@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Abstract;
 using DataAccessLayer.Abstract;
+using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,11 @@ namespace BusinessLayer.Concrete
 {
     public class WriterManager : IWriterService
     {
-        IWriterDal _writerdal; // W
+        IWriterDal _writerdal;
 
         public WriterManager(IWriterDal writerdal)
         {
-            _writerdal = writerdal;   // Iwriterdal  interface oluşturuyoruz ve ct oluşturuyoruz.Neden çünkü IWriterdal imzalar saklı.
+            _writerdal = writerdal;
         }
 
         public List<Writer> GetWriterList()
@@ -41,6 +42,16 @@ namespace BusinessLayer.Concrete
         public void WriterRemove(Writer wrt)
         {
             _writerdal.Delete(wrt);
+        }
+
+        public Writer GetWriterByUserNamePassword(string mail, string password)
+        {
+            return _writerdal.Get(x => x.WriterMail == mail && x.WriterPassword == password);
+        }
+
+        public Writer GetWriterByMail(string mail)
+        {
+            return _writerdal.Get(x => x.WriterMail == mail);
         }
     }
 }

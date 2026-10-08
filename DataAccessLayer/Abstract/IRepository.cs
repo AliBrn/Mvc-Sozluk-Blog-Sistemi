@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Abstract
 {
-    // Öncekinden farklı olarak öncekinde her class için bir abstract oluşturup  repositories oluşturuyorduk kategori,about,writer,heading duplicate oluyor
-    // Bunun yerine napcaz bir tane interface oluşturuduk IRepository adında <T> dediğimiz varlık parametresiyle artık hangi class aitse ordan otomatik yapcaz
-    // Bu sayede noldu  direk varlık gelmi gibi yapcaz öncesindeki categorydal interface hatalıydı orda category  yazıp repositiory ile çağrıyoduk
-    public interface IRepository<T>    // Bu interface içini cONCRETE REPOSTORİESDEN gENERC rEPOSİTORYDEN DOLDURDUK
+    /// <summary>
+    /// Tüm entityler için temel CRUD ve filtreleme metotlarını tanımlayan generic repository arayüzü
+    /// </summary>
+    /// <typeparam name="T">İlgili veritabanı entity sınıfı</typeparam>
+    public interface IRepository<T>
     {
         List<T> List();
         void Insert(T p);
-        T Get(Expression<Func<T, bool>> filter); // Tek değer döndüren için bu metodu    ID si 5 no lu yazar dediğinde bunu kullanırız 
+        T Get(Expression<Func<T, bool>> filter);
         void Update(T p);
         void Delete(T p);
-
-        List<T> List(Expression<Func<T, bool>> filter); // Şartlı listelemeyi yapcak   Komple liste dönerken
+        List<T> List(Expression<Func<T, bool>> filter);
     }
 }

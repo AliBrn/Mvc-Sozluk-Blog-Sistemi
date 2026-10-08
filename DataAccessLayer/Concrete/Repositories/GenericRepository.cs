@@ -10,61 +10,59 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Concrete.Repositories
 {
-    // Tek seferde tüm interface ait metotları tanımladıgın class  Hangi class seçtiğide ı repository gelen varlıga göre class seçiyor 
-    public class GenericRepository<T>:IRepository<T> where T : class
+    /// <summary>
+    /// Tüm entity modelleri için ortak CRUD işlemlerini gerçekleştiren generic repository sınıfı
+    /// </summary>
+    public class GenericRepository<T> : IRepository<T> where T : class
     {
         Context c = new Context();
-        DbSet<T> _object; // T ye karşılık gelen sınıfı nasıl bulcaz DbSet<Writer> _object    writer alıyor değeri
-                          // DbSet<Category>  Categories ;   Categoris=c.Set<Category>(); Koddaki set edilen  category veritabanına yansıyor
+        DbSet<T> _object;
+
         public GenericRepository()
         {
-            _object=c.Set<T>(); // Object değerin context bağlı olarak gönderilen T değerine bağlı. gelen değeri objeye gönderiyoruz
+            _object = c.Set<T>();
         }
-        public void Delete(T p)  // Gerçek delete burda yapıyor CategoryManager doldurdugumuz burdaki metotla 
+
+        // EntityState.Deleted kullanarak varlığı siler
+        public void Delete(T p)
         {
-            // Silme içinde aynısını yapıyoruz EntityState.Deleted 
-            var deletedEntity=c.Entry(p);
+            var deletedEntity = c.Entry(p);
             deletedEntity.State = EntityState.Deleted;
-            //_object.Remove(p);
             c.SaveChanges();
         }
 
+        // Belirtilen filtreye uyan ilk veya varsayılan kaydı getirir
         public T Get(Expression<Func<T, bool>> filter)
         {
-            return _object.SingleOrDefault(filter); // Tek değer için kullanılan metot
+            return _object.SingleOrDefault(filter);
         }
 
+        // EntityState.Added kullanarak yeni varlık ekler
         public void Insert(T p)
         {
-            // Entity State ile   ekleme yaptık   EntityState.Added  hazır olan metot
-            var addedEntity=c.Entry(p);
+            var addedEntity = c.Entry(p);
             addedEntity.State = EntityState.Added;
-            //_object.Add(p);
             c.SaveChanges();
         }
 
+        // Belirtilen filtreye göre şartlı listeleme yapar
         public List<T> List(Expression<Func<T, bool>> filter)
         {
             return _object.Where(filter).ToList();
         }
 
+        // Tüm kayıtları listeler
         public List<T> List()
         {
             return _object.ToList();
         }
 
-       
-
+        // EntityState.Modified kullanarak varlığı günceller
         public void Update(T p) 
         {
-            // Update işlemi burda gerçekleşmiyor çünkü tam kaydedilmiyor
-            // Entity State kullancaz Veritabannıa tam kaydetmediği için baştan bidaha aynısını listeliyor.
-
-            var updatedEntity=c.Entry(p);
-            updatedEntity.State = EntityState.Modified; //Entity güncellenmiş olduğunu bildiriyor.
+            var updatedEntity = c.Entry(p);
+            updatedEntity.State = EntityState.Modified;
             c.SaveChanges();
         }
     }
-
-    
 }

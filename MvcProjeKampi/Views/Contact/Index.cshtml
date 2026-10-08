@@ -4,6 +4,8 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+
+
 <!-- İletişim Web sayfasına gönderilen mesajlar-->
 <!-- Mesajlarda site içindeki mesajları görüntülediğimiz-->
 <!DOCTYPE html>
@@ -18,28 +20,35 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1>Mesaj Sayfası</h1>
-                </div>  
+                </div>
             </div>
         </div><!-- /.container-fluid -->
     </section>
     <!-- Main content -->
     <section class="content">
         <div class="row">
-           @Html.Action("MessageListMenu","Contact")
+            @Html.Action("MessageListMenu", "Contact")
             <!-- /.col -->
             <div class="col-md-9">
                 <div class="card card-primary card-outline">
                     <div class="card-header">
                         <h3 class="card-title">Dışardan Kullanıcı Tarafından Gelen Mesajlar</h3>
                         <div class="card-tools">
-                            <div class="input-group input-group-sm">
-                                <input type="text" class="form-control" placeholder="Mail Kutusunda Ara">
-                                <div class="input-group-append">
-                                    <div class="btn btn-primary">
-                                        <i class="fas fa-search"></i>
+                            <!-- ContactController altındaki Index metoduna GET isteği atar -->
+                            @using (Html.BeginForm("Index", "Contact", FormMethod.Get))
+                            {
+                                <div class="input-group input-group-sm" style="width: 250px;">
+                                    <!-- Arama kutumuzun adı yine 'kelime' -->
+                                    <input type="text" name="kelime" class="form-control" placeholder="İletişim Mesajlarında Ara...">
+
+                                    <div class="input-group-append">
+                                        <!-- Arama simgesi: formun submit butonu haline getirildi -->
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-search"></i>
+                                        </button>
                                     </div>
                                 </div>
-                            </div>
+                            }
                         </div>
                         <!-- /.card-tools -->
                     </div>
@@ -67,25 +76,40 @@
                             </div>
                             <!-- /.float-right -->
                         </div>
+                        <!--Jquery ve ajax yapısı kullanabilirim-->
                         <div class="table-responsive mailbox-messages">
                             <table class="table table-hover table-striped">
                                 <tbody>
-                                    @foreach(var item in Model) {
-                                    <tr>
-                                        <td>
-                                            <div class="icheck-primary">
-                                                <input type="checkbox" value="" id="check1">
-                                                <label for="check1"></label>
-                                            </div>
-                                        </td>
-                                        <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
-                                        <td class="mailbox-name"><a href="/Contact/ContactDetails/@item.ContactID">@item.UserName</a></td>
-                                        <td class="mailbox-subject">
-                                            <b>@item.Subject</b> - @item.Message.Substring(0,30)...
-                                        </td>
-                                        <td class="mailbox-attachment"></td>
-                                        <td class="mailbox-date">@(((DateTime)item.ContactDate).ToString("dd-MMM-yyyy"))</td>
-                                    </tr>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+
+                                           <td>
+                                               <form method="post" action="/Contact/ContactIsRead/@item.ContactID">
+                                                   <!--type hidden yerine checkbox vardı ancak form da işaretleme yapmazsa  göremiyor false sadece true o yüzden hidden çekti gizli inputla false gönderiyoruz,Hem true hem false değeri yollamayı sağlar-->
+                                                   <!--form gönderildiğinde verinin hangi isimle gönderileceğini belirler. controlerdaki parametre name ile eşleşir-->
+                                                   <!--Value ilk seçili gelen onchange değiştirince değiştiriyor-->
+                                                   <!--Formun içinde  value değer seçili olan check değeri yapılca ve kaydetce-->
+                                                   <!--Sadece şunu unutma: name verinin adıdır, value ise o anda gönderilecek değerdir.-->
+                                                   <input type="hidden" name="isRead" value="@item.IsRead" />
+                                                   <div class="icheck-primary">
+                                                       <input type="checkbox"
+                                                              @(item.IsRead ? "checked" : "")
+                                                              onchange="this.form.isRead.value = this.checked; this.form.submit();">
+
+                                                       <label for="check_@item.ContactID"></label>
+                                                   </div>
+
+                                               </form>
+                                           </td>
+                                            <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
+                                            <td class="mailbox-name"><a href="/Contact/ContactDetails/@item.ContactID">@item.UserName</a></td>
+                                            <td class="mailbox-subject">
+                                                <b>@item.Subject</b> - @(item.Message != null && item.Message.Length > 30 ? item.Message.Substring(0, 30) + "..." : item.Message)
+                                            </td>
+                                            <td class="mailbox-attachment"></td>
+                                            <td class="mailbox-date">@(((DateTime)item.ContactDate).ToString("dd-MMM-yyyy"))</td>
+                                        </tr>
                                     }
                                 </tbody>
                             </table>

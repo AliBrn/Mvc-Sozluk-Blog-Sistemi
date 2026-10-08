@@ -22,7 +22,8 @@ namespace EntityLayer.Concrete
         public string Subject { get; set; }
         public string MessageContent { get; set; }
         public DateTime MessageDate { get; set; }
-        
-       
+        public bool MessageIsRead { get; set; }
+        public bool IsDraft { get; set; } // true ise taslak, false ise normal mesaj
+
     }
 }

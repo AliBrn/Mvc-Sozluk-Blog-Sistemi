@@ -1,4 +1,5 @@
 ﻿@model EntityLayer.Concrete.Category
+<!--Bu sayfada bir sıkıntı var-->
 @{
     Layout = null;
 }
@@ -11,12 +12,11 @@
 {
     <div class="form-group">
         @Html.Label("Kategori Adı")
-        @Html.TextBoxFor(x => x.CategoryName, new { @class = "form-control"}) <!-- Kullanıcı bu halde mesaj görmüyor-->
+        @Html.TextBoxFor(x => x.CategoryName, new { @class = "form-control" }) <!-- Kullanıcı bu halde mesaj görmüyor-->
         @Html.ValidationMessageFor(x => x.CategoryName)
         <br />
-        <br />
         @Html.Label("Kategori Açıklaması")
-        @Html.TextAreaFor(x => x.CategoryDescription, new { @class = "form-control"})
+        @Html.TextBoxFor(x => x.CategoryDescription, new { @class = "form-control" })
         @Html.ValidationMessageFor(x => x.CategoryDescription) <!-- Validation hatalarını gösteriyor summary olan tüm hatalarını gösteriri-->
         <br />
         <button class="btn btn-danger">Kaydet</button>

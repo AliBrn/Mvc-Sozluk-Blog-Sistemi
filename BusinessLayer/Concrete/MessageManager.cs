@@ -18,36 +18,47 @@ namespace BusinessLayer.Concrete
             _messagedal = messagedal;
         }
 
-       
-        public List<Message> GetListSendbox() // Gönderen Admin mailiyse listeliyor
-        {
-            return _messagedal.List(x => x.SenderMail == "admin@gmail.com");
+        // Belirtilen kullanıcının gönderdiği (giden) mesajları listeler
+        public List<Message> GetListSendbox(string mail)
+        { 
+            return _messagedal.List(x => x.SenderMail == mail && x.IsDraft == false);
         }
 
+        // ID'ye göre tekil mesaj kaydını getirir
         public Message GetMessageById(int id)
         {
-           return _messagedal.Get(x=>x.MessageID == id);
+           return _messagedal.Get(x => x.MessageID == id);
         }
 
-        public List<Message> GetListInbox()
-        { // Alıcı mali karşıdaki adminse listeliyor
-
-            return _messagedal.List(x => x.ReceiverMail == "admin@gmail.com");
+        // Belirtilen kullanıcının gelen kutusu mesajlarını listeler
+        public List<Message> GetListInbox(string mail)
+        {
+            return _messagedal.List(x => x.ReceiverMail == mail && x.IsDraft == false);
         }
 
+        // Yeni mesaj ekler
         public void MessageAdd(Message message)
         {
             _messagedal.Insert(message);
         }
 
+        // Mesajı siler
         public void MessageRemove(Message message)
         {
-            throw new NotImplementedException();
+            _messagedal.Delete(message);
         }
 
+        // Mesaj bilgilerini günceller
         public void MessageUpdate(Message message)
         {
-            throw new NotImplementedException();
+            _messagedal.Update(message);
         }
+
+        // Belirtilen kullanıcının taslak mesajlarını listeler
+        public List<Message> GetListDraft(string mail)
+        {
+            return _messagedal.List(x => x.SenderMail == mail && x.IsDraft == true);
+        }
+
     }
 }

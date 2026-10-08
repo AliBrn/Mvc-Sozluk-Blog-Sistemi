@@ -17,28 +17,44 @@ namespace BusinessLayer.Concrete
         {
             _headingdal = headingdal;
         }
+
+        // Kategoriye ait başlıkları listeler
+        public List<Heading> GetListByCategory(int id)
+        {
+            return _headingdal.List(x => x.CategoryID == id);
+        }
+
+        // Belirtilen yazara ait başlıkları listeler
+        public List<Heading> GetListByWriter(int id)
+        {
+            return _headingdal.List(x => x.WriterID == id);
+        }
+
+        // Yeni başlık ekler
         public void HeadingAdd(Heading heading)
         {
-            _headingdal.Insert(heading); // İçindeki insert burdan gelmiyor  IRepositoryden geliyor doldurulmuş hali işleme alınan Generic
+            _headingdal.Insert(heading);
         }
 
+        // ID'ye göre tekil başlık kaydını getirir
         public Heading HeadingGetByID(int id)
         {
-            return _headingdal.Get(x=>x.HeadingID==id);
+            return _headingdal.Get(x => x.HeadingID == id);
         }
 
+        // Tüm başlıkları listeler
         public List<Heading> HeadingList()
         {
-            return  _headingdal.List();
+            return _headingdal.List();
         }
 
-        public void HeadingRemove(Heading heading) // Direk silme yerine false yapcaz
+        // Başlığı pasife alır (Soft delete)
+        public void HeadingRemove(Heading heading)
         {
-             // Heading status burda kullanmamalıyız id çağırabiliriz en fazla entity kullanamayız  sadece update kullancanz delete yerine
-            //_headingdal.Delete(heading);
-            _headingdal.Update(heading);  // False değiştir status sonra update yap removeda
+            _headingdal.Update(heading);
         }
 
+        // Başlık bilgilerini günceller
         public void HeadingUpdate(Heading heading)
         {
             _headingdal.Update(heading);

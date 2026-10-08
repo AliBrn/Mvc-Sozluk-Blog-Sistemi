@@ -22,11 +22,36 @@
             <td>@item.CategoryID</td>
             <td>@item.CategoryName</td>
             <td>@item.CategoryDescription</td>
-            <td> <a class="btn btn-danger" href="/AdminCategory/CategoryDelete/@item.CategoryID">Sil</a> </td>
+            <td> <a class="btn btn-danger btn-delete " href="/AdminCategory/CategoryDelete/@item.CategoryID">Sil</a> </td>
             <td> <a class="btn btn-warning" href="/AdminCategory/CategoryEdit/@item.CategoryID">Güncelle</a> </td>
-            <td> <a class="btn btn-primary" href="#">Başlıklar</a> </td>
+            <td> <a class="btn btn-primary " href="/AdminCategory/ListHeadingsByCategory/@item.CategoryID">Başlıklar</a> </td>
         </tr>
     }
 
 </table>
 <a href="/AdminCategory/CategoryAdd/" class="btn btn-info">Ekle</a>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    $(document).on('click', '.btn-delete', function (e) {
+        e.preventDefault();
+
+        var url = $(this).attr('href');
+
+        Swal.fire({
+            title: 'Emin misiniz?',
+            text: 'Bu kaydı silmek istediğinize emin misiniz?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Evet, Sil',
+            cancelButtonText: 'Vazgeç'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url;
+            }
+        });
+    });
+</script>

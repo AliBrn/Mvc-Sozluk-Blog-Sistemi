@@ -1,0 +1,220 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Giriş</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #6b7ff0 0%, #a92df0 55%, #d900ff 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 380px;
+            background: #fff;
+            border-radius: 7px;
+            padding: 42px 36px 35px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.10);
+        }
+
+        .title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: #252525;
+            margin-bottom: 35px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+            .form-group label {
+                display: block;
+                font-size: 12px;
+                color: #444;
+                margin-bottom: 7px;
+            }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+            .input-wrapper input {
+                width: 100%;
+                height: 40px;
+                border: none;
+                border-bottom: 2px solid #ddd;
+                outline: none;
+                padding: 0 5px 0 27px;
+                font-size: 13px;
+                color: #333;
+                background: transparent;
+            }
+
+                .input-wrapper input:focus {
+                    border-bottom-color: #8e46ed;
+                }
+
+        .input-icon {
+            position: absolute;
+            left: 3px;
+            top: 11px;
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .forgot {
+            display: block;
+            text-align: right;
+            margin-top: -8px;
+            margin-bottom: 20px;
+            color: #555;
+            text-decoration: none;
+            font-size: 11px;
+        }
+
+            .forgot:hover {
+                color: #8b36e8;
+            }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .login-btn,
+        .home-btn {
+            width: 100%;
+            height: 42px;
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .login-btn {
+            background: linear-gradient(90deg, #10cbd0, #c800ff);
+            box-shadow: 0 4px 12px rgba(177, 0, 255, 0.25);
+        }
+
+            .login-btn:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 6px 15px rgba(177, 0, 255, 0.35);
+            }
+
+        .home-btn {
+            background: #eee;
+            color: #555;
+        }
+
+            .home-btn:hover {
+                background: #e2e2e2;
+            }
+
+        @@media (max-width: 500px) {
+            .login-container {
+                max-width: 340px;
+                padding: 35px 28px 30px;
+            }
+
+            .title {
+                font-size: 25px;
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Web configde yetkisiz yere girişde login indxx yönlendircek url,timeout gibi farklı değer de var-->
+    <div class="login-container">
+        <h1 class="title">Admin Giriş</h1>
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 13px; text-align: center;">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        @if (TempData["ResetSuccess"] != null)
+        {
+            <div style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 13px; text-align: center;">
+                @TempData["ResetSuccess"]
+            </div>
+        }
+
+        @using (Html.BeginForm("Index", "Login", FormMethod.Post))
+        {
+            <div class="form-group">
+                <label for="username"></label>
+
+                <div class="input-wrapper">
+                    <span class="input-icon">♙</span>
+                    <input type="text"
+                           name="AdminUserName"
+                           id="username"
+                           placeholder="Kullanıcı adı giriniz">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Şifre</label>
+
+                <div class="input-wrapper">
+                    <span class="input-icon">♙</span>
+                    <input type="password"
+                           name="AdminPassword"
+                           id="password"
+                           placeholder="Şifre giriniz">
+                </div>
+            </div>
+
+            <a href="/Login/AdminForgotPassword" class="forgot">Şifreni mi unuttun?</a>
+
+            <div class="buttons">
+
+                <button type="submit" class="login-btn">
+                    GİRİŞ YAP
+                </button>
+
+                <button type="button" class="home-btn" onclick="window.location.href='/Home/HomePage/'">
+                    ANA SAYFAYA DÖN
+                </button>
+
+            </div>
+
+        }
+
+    </div>
+
+</body>
+</html>

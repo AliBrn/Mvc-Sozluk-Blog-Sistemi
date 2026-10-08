@@ -52,10 +52,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IAboutDal.cs" />
+    <Compile Include="Abstract\IAdminDal.cs" />
     <Compile Include="Abstract\ICategoryDal.cs" />
     <Compile Include="Abstract\IContactDal.cs" />
     <Compile Include="Abstract\IContentDal.cs" />
     <Compile Include="Abstract\IHeadingDal.cs" />
+    <Compile Include="Abstract\IImageFileDal.cs" />
     <Compile Include="Abstract\IMessageDal.cs" />
     <Compile Include="Abstract\IRepository.cs" />
     <Compile Include="Abstract\IWriterDal.cs" />
@@ -63,10 +65,12 @@
     <Compile Include="Concrete\Repositories\CategoryRepository.cs" />
     <Compile Include="Concrete\Repositories\GenericRepository.cs" />
     <Compile Include="EntityFramework\EfAboutDal.cs" />
+    <Compile Include="EntityFramework\EfAdminDal.cs" />
     <Compile Include="EntityFramework\EfCategoryDal.cs" />
     <Compile Include="EntityFramework\EfContactDal.cs" />
     <Compile Include="EntityFramework\EfContentDal.cs" />
     <Compile Include="EntityFramework\EfHeadingDal.cs" />
+    <Compile Include="EntityFramework\EfImageFileDal.cs" />
     <Compile Include="EntityFramework\EfMessageDal.cs" />
     <Compile Include="EntityFramework\EfWriterDal.cs" />
     <Compile Include="Migrations\202608270730217_mig1.cs" />
@@ -100,6 +104,38 @@
     <Compile Include="Migrations\202609111341212_mig_add_contactdate.cs" />
     <Compile Include="Migrations\202609111341212_mig_add_contactdate.Designer.cs">
       <DependentUpon>202609111341212_mig_add_contactdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609142043105_mig_image_file_class.cs" />
+    <Compile Include="Migrations\202609142043105_mig_image_file_class.Designer.cs">
+      <DependentUpon>202609142043105_mig_image_file_class.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609150955295_mig_admin_table.cs" />
+    <Compile Include="Migrations\202609150955295_mig_admin_table.Designer.cs">
+      <DependentUpon>202609150955295_mig_admin_table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609151956561_mig_admin_password_update.cs" />
+    <Compile Include="Migrations\202609151956561_mig_admin_password_update.Designer.cs">
+      <DependentUpon>202609151956561_mig_admin_password_update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609161035298_mig_About_add_status.cs" />
+    <Compile Include="Migrations\202609161035298_mig_About_add_status.Designer.cs">
+      <DependentUpon>202609161035298_mig_About_add_status.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609161051419_mig_about_status_bool.cs" />
+    <Compile Include="Migrations\202609161051419_mig_about_status_bool.Designer.cs">
+      <DependentUpon>202609161051419_mig_about_status_bool.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609161323224_mig_isread_status.cs" />
+    <Compile Include="Migrations\202609161323224_mig_isread_status.Designer.cs">
+      <DependentUpon>202609161323224_mig_isread_status.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202609292013206_mig_update_status_admin.cs" />
+    <Compile Include="Migrations\202609292013206_mig_update_status_admin.Designer.cs">
+      <DependentUpon>202609292013206_mig_update_status_admin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202610011804344_mig_message_draft.cs" />
+    <Compile Include="Migrations\202610011804344_mig_message_draft.Designer.cs">
+      <DependentUpon>202610011804344_mig_message_draft.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -138,6 +174,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202609111341212_mig_add_contactdate.resx">
       <DependentUpon>202609111341212_mig_add_contactdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609142043105_mig_image_file_class.resx">
+      <DependentUpon>202609142043105_mig_image_file_class.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609150955295_mig_admin_table.resx">
+      <DependentUpon>202609150955295_mig_admin_table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609151956561_mig_admin_password_update.resx">
+      <DependentUpon>202609151956561_mig_admin_password_update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609161035298_mig_About_add_status.resx">
+      <DependentUpon>202609161035298_mig_About_add_status.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609161051419_mig_about_status_bool.resx">
+      <DependentUpon>202609161051419_mig_about_status_bool.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609161323224_mig_isread_status.resx">
+      <DependentUpon>202609161323224_mig_isread_status.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202609292013206_mig_update_status_admin.resx">
+      <DependentUpon>202609292013206_mig_update_status_admin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202610011804344_mig_message_draft.resx">
+      <DependentUpon>202610011804344_mig_message_draft.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

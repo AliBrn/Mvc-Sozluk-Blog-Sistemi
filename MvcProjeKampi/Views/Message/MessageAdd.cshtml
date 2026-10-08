@@ -73,10 +73,17 @@
                         <!-- /.card-body -->
                         <div class="card-footer">
                             <div class="float-right">
-                                <button type="button" class="btn btn-default"><i class="fas fa-pencil-alt"></i> Taslaklara Kaydet</button>
-                                <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Gönder</button>
+                                <!-- name="btnAction" value="draft": Controller'a taslak kaydetme olduğunu bildirecek  value önemli draft mı send mi-->
+                                <button type="submit" name="btnAction" value="draft" class="btn btn-default">
+                                    <i class="fas fa-pencil-alt"></i> Taslaklara Kaydet
+                                </button>
+
+                                <!-- name="btnAction" value="send": Controller'a normal gönderim olduğunu bildirecek -->
+                                <button type="submit" name="btnAction" value="send" class="btn btn-primary">
+                                    <i class="far fa-envelope"></i> Gönder
+                                </button>
                             </div>
-                            <button type="reset" class="btn btn-default"><i class="fas fa-times"></i>İptal Et</button>
+                            <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> İptal Et</button>
                         </div>
                         <!-- /.card-footer -->
                     </div>

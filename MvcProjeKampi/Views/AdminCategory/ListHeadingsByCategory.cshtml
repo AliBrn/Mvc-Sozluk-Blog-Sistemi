@@ -1,0 +1,30 @@
+﻿@using EntityLayer.Concrete
+@model List<Heading>
+@{
+    ViewBag.Title = "ListHeadingsByCategory";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Kategoriye Göre Başlık Bilgileri</h1>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Kategorisi</th>
+            <th>Başlık Adı</th>
+            <th>Başlık Tarihi</th>
+            <th>Durumu</th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.HeadingID</td>
+            <td>@item.Category.CategoryName</td>
+            <td>@item.HeadingName</td>
+            <td>@item.HeadingDate.ToString("dd-MMM-yyyy")</td>
+            <td>@item.HeadingStatus</td>
+
+        </tr>
+    }
+   </table>

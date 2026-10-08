@@ -33,14 +33,21 @@
                     <div class="card-header">
                         <h3 class="card-title">Gönderilen Mesajlar</h3>
                         <div class="card-tools">
-                            <div class="input-group input-group-sm">
-                                <input type="text" class="form-control" placeholder="Mail Kutusunda Ara">
-                                <div class="input-group-append">
-                                    <div class="btn btn-primary">
-                                        <i class="fas fa-search"></i>
+                            <!-- FormMethod.Get: Arama kelimesini URL üzerinden (?kelime=mesaj) Sendbox metoduna yollar -->
+                            @using (Html.BeginForm("Sendbox", "Message", FormMethod.Get))
+                            {
+                                <div class="input-group input-group-sm" style="width: 250px;">
+                                    <!-- name="kelime": Controller'daki 'string kelime' parametresiyle birebir aynı isimde olmalıdır! -->
+                                    <input type="text" name="kelime" class="form-control" placeholder="Giden Kutunda Ara...">
+
+                                    <div class="input-group-append">
+                                        <!-- type="submit": Butona tıklandığında veya kutuda Enter'a basıldığında formu Controller'a gönderir -->
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-search"></i>
+                                        </button>
                                     </div>
                                 </div>
-                            </div>
+                            }
                         </div>
                         <!-- /.card-tools -->
                     </div>
@@ -83,7 +90,7 @@
                                             <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
                                             <td class="mailbox-name"><a href="/Message/MessageSendboxDetails/@item.MessageID">@item.ReceiverMail</a></td>
                                             <td class="mailbox-subject">
-                                                <b>@item.Subject</b> - @item.MessageContent.Substring(0, 30)...
+                                                <b>@item.Subject</b> - @(item.MessageContent != null && item.MessageContent.Length > 30 ? item.MessageContent.Substring(0, 30) + "..." : item.MessageContent)
                                             </td>
                                             <td class="mailbox-attachment"></td>
                                             <td class="mailbox-date">@(((DateTime)item.MessageDate).ToString("dd-MMM-yyyy"))</td>

@@ -1,0 +1,124 @@
+﻿@using EntityLayer.Concrete
+@model List<Message>
+@{
+    ViewBag.Title = "WriterDraft";
+    Layout = "~/Views/Shared/_WriterLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<body class="hold-transition sidebar-mini">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Taslaklar</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            @Html.Action("WriterMessageListMenu", "WriterPanelMessage")
+
+            <div class="col-md-9">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">Taslak Mesajlar</h3>
+                        <div class="card-tools">
+                            <!-- Taslaklar içi Arama Kutusu -->
+                            @using (Html.BeginForm("WriterDraft", "WriterPanelMessage", FormMethod.Get))
+                            {
+                                <div class="input-group input-group-sm" style="width: 250px;">
+                                    <input type="text" name="kelime" class="form-control" placeholder="Taslaklarda Ara...">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="card-body p-0">
+                        <div class="mailbox-controls">
+                            <button type="button" class="btn btn-default btn-sm checkbox-toggle">
+                                <i class="far fa-square"></i>
+                            </button>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-sm"><i class="far fa-trash-alt"></i></button>
+                                <button type="button" class="btn btn-default btn-sm"><i class="fas fa-reply"></i></button>
+                                <button type="button" class="btn btn-default btn-sm"><i class="fas fa-share"></i></button>
+                            </div>
+                            <button type="button" class="btn btn-default btn-sm"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <div class="table-responsive mailbox-messages">
+                            <table class="table table-hover table-striped">
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="icheck-primary">
+                                                    <input type="checkbox" value="" id="check1">
+                                                    <label for="check1"></label>
+                                                </div>
+                                            </td>
+                                            <td class="mailbox-star"><a href="#"><i class="fas fa-star text-warning"></i></a></td>
+                                            <td class="mailbox-name">
+                                                <!-- Taslağa tıklanınca yazar taslak düzenleme sayfasına gidecek -->
+                                                <a href="/WriterPanelMessage/WriterDraftEdit/@item.MessageID">
+                                                    @(string.IsNullOrEmpty(item.ReceiverMail) ? "(Alıcı Belirtilmedi)" : item.ReceiverMail)
+                                                </a>
+                                            </td>
+                                            <td class="mailbox-subject">
+                                                <b>@item.Subject</b> - @(item.MessageContent != null && item.MessageContent.Length > 30 ? item.MessageContent.Substring(0, 30) + "..." : item.MessageContent)
+                                            </td>
+                                            <td class="mailbox-attachment"></td>
+                                            <td class="mailbox-date">@(((DateTime)item.MessageDate).ToString("dd-MMM-yyyy"))</td>
+                                            <td class="text-right">
+                                                <a href="/WriterPanelMessage/WriterDraftDelete/@item.MessageID" class="btn btn-danger btn-sm btn-delete-draft" title="Taslağı Sil">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        $(function () {
+            // SweetAlert2 ile Taslak Silme Onayı (v9 ve v11 uyumlu):
+            $(document).on('click', '.btn-delete-draft', function (e) {
+                e.preventDefault();
+                var url = $(this).attr('href');
+
+                Swal.fire({
+                    title: 'Taslağı Silmek İstiyor Musunuz?',
+                    text: 'Bu taslak mesaj kalıcı olarak silinecektir!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: '<i class="fas fa-trash"></i> Evet, Sil',
+                    cancelButtonText: '<i class="fas fa-times"></i> Vazgeç',
+                    reverseButtons: true
+                }).then(function (result) {
+                    if (result && (result.value === true || result.isConfirmed === true)) {
+                        window.location.href = url;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

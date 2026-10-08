@@ -2,7 +2,7 @@
 @model List<Content>
 @{
     ViewBag.Title = "ContentByHeading";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = (Session["WriterMail"] != null) ? "~/Views/Shared/_WriterLayout.cshtml" : "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>ContentByHeading</h2>
@@ -31,7 +31,7 @@
                             <div>
                                 <i class="fas fa-comment bg-yellow"></i>
                                 <div class="timeline-item">
-                                    <h3 class="timeline-header"><a href="#">@item.Writer.WriterName  @item.Writer.WriterSurName</a> Deneme</h3>
+                                    <h3 class="timeline-header"><a href="#">@item.Writer.WriterName  @item.Writer.WriterSurName</a> (@item.Writer.WriterTitle)</h3>
                                     <div class="timeline-body">
                                         @item.ContentValue
                                     </div>
@@ -40,6 +40,8 @@
                             <!-- END timeline item -->
                             }
                         </div>
+                        </div>
+                   </div>
                     </div>
                     <!-- /.col 
                 </div>             

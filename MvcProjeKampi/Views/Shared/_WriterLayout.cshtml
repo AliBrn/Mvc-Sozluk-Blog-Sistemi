@@ -1,0 +1,150 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>MVC PROJE </title>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~\AdminLTE-3.0.4\plugins/fontawesome-free/css/all.min.css">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~\AdminLTE-3.0.4\dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="/AdminLTE-3.0.4/plugins/sweetalert2/sweetalert2.min.css">
+    <!-- jQuery (Sayfa içi scriptlerin çalışabilmesi için head içinde tanımlandı) -->
+    <script src="/AdminLTE-3.0.4/plugins/jquery/jquery.min.js"></script>
+    <!-- SweetAlert2 JS (Tüm yazar paneli sayfalarında hazır bulunması için) -->
+    <script src="/AdminLTE-3.0.4/plugins/sweetalert2/sweetalert2.all.min.js"></script>
+</head>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="/WriterPanelContent/MyContent/" class="brand-link">
+                <img src="~\AdminLTE-3.0.4\dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                     style="opacity: .8">
+                <span class="brand-text font-weight-light">MVC Proje</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user panel (Giriş yapan yazarın resmi ve adı dinamik gelir) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="@(Session["WriterImage"] != null && !string.IsNullOrEmpty(Session["WriterImage"].ToString()) ? Session["WriterImage"].ToString() : "/AdminLTE-3.0.4/dist/img/user2-160x160.jpg")" class="img-circle elevation-2" alt="User Image" style="width:34px;height:34px;object-fit:cover;">
+                    </div>
+                    <div class="info">
+                        <a href="/WriterPanel/WriterProfile/" class="d-block">@(Session["WriterName"] != null ? Session["WriterName"].ToString() : (Session["WriterMail"] != null ? Session["WriterMail"].ToString() : "Yazar Paneli"))</a>
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- 1. Profilim Sayfası -->
+                        <li class="nav-item">
+                            <a href="/WriterPanel/WriterProfile/" class="nav-link">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>
+                                    Profilim
+                                </p>
+                            </a>
+                        </li>
+                        <!-- 2. Başlıklarım Sayfası (Yazım hatası düzeltildi: Başlıklarm -> Başlıklarım) -->
+                        <li class="nav-item">
+                            <a href="/WriterPanel/MyHeading/" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Başlıklarım
+                                </p>
+                            </a>
+                        </li>
+                        <!-- 3. Tüm Başlıklar Sayfası -->
+                        <li class="nav-item">
+                            <a href="/WriterPanel/AllHeading/" class="nav-link">
+                                <i class="nav-icon fas fa-list-alt"></i>
+                                <p>
+                                    Tüm Başlıklar
+                                </p>
+                            </a>
+                        </li>
+                        <!-- 4. Mesajlar Sayfası -->
+                        <li class="nav-item">
+                            <a href="/WriterPanelMessage/WriterInbox/" class="nav-link">
+                                <i class="nav-icon fas fa-envelope"></i>
+                                <p>
+                                    Mesajlar
+                                </p>
+                            </a>
+                        </li>
+                        <!-- 5. Yazılarım (İçeriklerim) Sayfası -->
+                        <li class="nav-item">
+                            <a href="/WriterPanelContent/MyContent/" class="nav-link">
+                                <i class="nav-icon fas fa-file-alt"></i>
+                                <p>
+                                    Yazılarım
+                                </p>
+                            </a>
+                        </li>
+                        <!-- 6. Siteye Git (Sözlük Vitrini) -->
+                        <li class="nav-item">
+                            <a href="/Default/Headings/1" class="nav-link" target="_blank">
+                                <i class="nav-icon fas fa-external-link-alt"></i>
+                                <p>
+                                    Siteye Git
+                                </p>
+                            </a>
+                        </li>
+                        <!-- 7. Çıkış Yap (Güvenli oturum kapatma simgesi ve aksiyonu) -->
+                        <li class="nav-item">
+                            <a href="/Login/LogOut/" class="nav-link">
+                                <i class="nav-icon fas fa-sign-out-alt"></i>
+                                <p>
+                                    Çıkış Yap
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+
+            <!-- Main content -->
+            <div class="content">
+                @RenderBody()
+                <!-- /.container-fluid -->
+            </div>
+            <!-- /.content --> 
+        </div>
+        <!-- /.content-wrapper -->
+
+
+
+
+    </div>
+    <!-- ./wrapper -->
+    <!-- REQUIRED SCRIPTS -->
+    <!-- Bootstrap -->
+    <script src="/AdminLTE-3.0.4/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE -->
+    <script src="/AdminLTE-3.0.4/dist/js/adminlte.js"></script>
+</body>
+</html>

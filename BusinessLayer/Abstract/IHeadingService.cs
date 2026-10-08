@@ -7,12 +7,17 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Abstract
 {
+    /// <summary>
+    /// Başlık işlemleri için servis arayüzü
+    /// </summary>
     public interface IHeadingService
     {
+        List<Heading> GetListByWriter(int id);
         List<Heading> HeadingList();
         void HeadingAdd(Heading heading);
         void HeadingRemove(Heading heading);    
         void HeadingUpdate(Heading heading);
-        Heading  HeadingGetByID(int id); // Class döndürcen
+        Heading HeadingGetByID(int id);
+        List<Heading> GetListByCategory(int id);
     }
 }

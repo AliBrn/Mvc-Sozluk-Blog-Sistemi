@@ -7,12 +7,17 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.Abstract
 {
+    /// <summary>
+    /// Yazar işlemleri için servis arayüzü
+    /// </summary>
     public interface IWriterService
     {
         void WriterAdd(Writer wrt);
         void WriterRemove(Writer wrt);
         void WriterUpdate(Writer wrt);
-        Writer WriterGetByID(int id); // Class döndürcen
+        Writer WriterGetByID(int id);
         List<Writer> GetWriterList();
+        Writer GetWriterByUserNamePassword(string mail, string password);
+        Writer GetWriterByMail(string mail);
     }
 }
