@@ -1,4 +1,4 @@
-﻿# 📚 MVC Proje Kampı - Kurumsal Sözlük & Blog Yönetim Sistemi
+﻿# 📚 Kurumsal Sözlük & Blog Yönetim Sistemi (ASP.NET MVC 5)
 
 [![.NET Framework](https://img.shields.io/badge/.NET%20Framework-4.7.2-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
 [![ASP.NET MVC](https://img.shields.io/badge/ASP.NET%20MVC-5.2.9-0078D4?style=for-the-badge&logo=windows&logoColor=white)](https://dotnet.microsoft.com/apps/aspnet/mvc)
